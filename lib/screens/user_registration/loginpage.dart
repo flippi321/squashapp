@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:squashmate/homepage.dart';
-import 'package:squashmate/user_registration/registerpage.dart';
+import 'package:squashmate/screens/homepage.dart';
+import 'package:squashmate/screens/user_registration/registerpage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
