@@ -35,7 +35,7 @@ class HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomAppBar(
+      bottomNavigationBar: CustomAppBar(
         onItemSelected: (index) {
           setState(() {
             _currentIndex = index;
