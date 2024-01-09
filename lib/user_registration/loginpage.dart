@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:squashmate/homepage.dart';
 import 'package:squashmate/user_registration/registerpage.dart';
 
 class LoginPage extends StatefulWidget {
@@ -54,9 +55,10 @@ class LoginPageState extends State<LoginPage> {
                   // Reset error message
                   showError('');
                   // Continue with login logic
-                  String username = _usernameController.text;
-                  String password = _passwordController.text;
-                  print('Username: $username\nPassword: $password');
+                  Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomePage()),
+                );
                 }
               },
               child: const Text('Login'),
