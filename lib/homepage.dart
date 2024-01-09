@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:squashmate/custom_assets/customnavigationbar.dart';
+import 'package:squashmate/custom_assets/customappbar.dart';
 import 'package:squashmate/match_history/matchhistorypage.dart';
 import 'package:squashmate/new_match/newmatchpage.dart';
 import 'package:squashmate/scoreboard/scoreboardpage.dart';
@@ -35,7 +35,7 @@ class HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      bottomNavigationBar: CustomNavigationBar(
+      bottomNavigationBar: CustomBottomAppBar(
         onItemSelected: (index) {
           setState(() {
             _currentIndex = index;
