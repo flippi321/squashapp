@@ -41,6 +41,16 @@ class LoginPageState extends State<LoginPage> {
               },
               child: const Text('Login'),
             ),
+            const SizedBox(height: 8.0),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => RegisterPage()),
+                );
+              },
+              child: Text("No user, create one here"),
+            ),
           ],
         ),
       ),
