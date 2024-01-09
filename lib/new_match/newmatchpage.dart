@@ -12,9 +12,9 @@ class NewMatchState extends State<NewMatchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Match History'),
+        title: const Text('New Match'),
       ),
-      body: const Text("This is the Match History Page")
+      body: const Text("This is where you create a new match")
     );
   }
 }
