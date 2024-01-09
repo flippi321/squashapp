@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:squashmate/user_registration/loginpage.dart';
+import 'package:squashmate/screens/user_registration/loginpage.dart';
 
 void main() {
   runApp(const MyApp());
