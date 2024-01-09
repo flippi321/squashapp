@@ -11,6 +11,7 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  String _errorMessage = ''; // To store and display error messages
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +24,16 @@ class LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            if (_errorMessage.isNotEmpty)
+              Column(
+                children: [
+                  Text(
+                    _errorMessage,
+                    style: const TextStyle(color: Colors.red, fontSize: 14),
+                  ),
+                  const SizedBox(height: 16.0),
+                ],
+              ),
             TextField(
               controller: _usernameController,
               decoration: const InputDecoration(labelText: 'Username'),
@@ -33,12 +44,22 @@ class LoginPageState extends State<LoginPage> {
               decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
             ),
-            const SizedBox(height: 32.0),
+            const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                String username = _usernameController.text;
-                String password = _passwordController.text;
-                print('Username: $username\nPassword: $password');
+                // Check if username or password is empty
+                if (_usernameController.text.isEmpty ||
+                    _passwordController.text.isEmpty) {
+                  // Display error message
+                  showError('Username and password are required.');
+                } else {
+                  // Reset error message
+                  showError('');
+                  // Continue with login logic
+                  String username = _usernameController.text;
+                  String password = _passwordController.text;
+                  print('Username: $username\nPassword: $password');
+                }
               },
               child: const Text('Login'),
             ),
@@ -56,5 +77,12 @@ class LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  // Function to set and display error messages
+  void showError(String message) {
+    setState(() {
+      _errorMessage = message;
+    });
   }
 }
