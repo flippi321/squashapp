@@ -55,7 +55,7 @@ class LoginPageState extends State<LoginPage> {
                   // Reset error message
                   showError('');
                   // Continue with login logic
-                  Navigator.push(
+                  Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => const HomePage()),
                 );
