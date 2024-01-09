@@ -48,9 +48,7 @@ class LoginPageState extends State<LoginPage> {
             ElevatedButton(
               onPressed: () {
                 // Check if username or password is empty
-                if (_usernameController.text.isEmpty ||
-                    _passwordController.text.isEmpty) {
-                  // Display error message
+                if (hasEmptyCridentials()) {
                   showError('Username and password are required.');
                 } else {
                   // Reset error message
@@ -84,5 +82,9 @@ class LoginPageState extends State<LoginPage> {
     setState(() {
       _errorMessage = message;
     });
+  }
+
+  bool hasEmptyCridentials(){
+     return (_usernameController.text.isEmpty || _passwordController.text.isEmpty);
   }
 }
