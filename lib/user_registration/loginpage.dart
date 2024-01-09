@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:squashmate/user_registration/registerpage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -46,10 +47,10 @@ class LoginPageState extends State<LoginPage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => RegisterPage()),
+                  MaterialPageRoute(builder: (context) => const RegisterPage()),
                 );
               },
-              child: Text("No user, create one here"),
+              child: const Text("No user? Create one here!"),
             ),
           ],
         ),
