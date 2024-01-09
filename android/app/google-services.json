@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "739191775662",
+    "project_id": "squashapp-886b5",
+    "storage_bucket": "squashapp-886b5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:739191775662:android:645b7575f1f21f30ff283f",
+        "android_client_info": {
+          "package_name": "no.chrisscorp.squashmate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6sTRjP3gO1pzh9hWlGdxFkjC5VH0kfig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyCaHhA8OYJfvgy7Hf239zJYovDoz2P9Qc8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>739191775662</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>no.chrisscorp.squashmate.RunnerTests</string>
+	<key>PROJECT_ID</key>
+	<string>squashapp-886b5</string>
+	<key>STORAGE_BUCKET</key>
+	<string>squashapp-886b5.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:739191775662:ios:c07117a7bf7f92e5ff283f</string>
+</dict>
+</plist>
