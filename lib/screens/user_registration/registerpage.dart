@@ -74,11 +74,13 @@ class RegisterPageState extends State<RegisterPage> {
                   if (password == confirmPassword) {
                     // Register user
                     if (_formKey.currentState!.validate()) {
+                      // Generate user from information
                       UserModel user = UserModel(
                           username: username,
                           firstName: firstName,
                           lastName: lastName);
 
+                      // Register user
                       final authService = context.read<AuthService>();
                       final errorMessage = await authService.registerUser(
                           _usernameController.text,
