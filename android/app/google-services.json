@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:739191775662:android:75da1da95f550072ff283f",
+        "android_client_info": {
+          "package_name": "com.example.nls_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6sTRjP3gO1pzh9hWlGdxFkjC5VH0kfig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:739191775662:android:645b7575f1f21f30ff283f",
         "android_client_info": {
           "package_name": "no.chrisscorp.squashmate"
