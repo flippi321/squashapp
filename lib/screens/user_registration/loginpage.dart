@@ -63,19 +63,19 @@ class LoginPageState extends State<LoginPage> {
                     // Login user
                     if (_formKey.currentState!.validate()) {
                       final authService = context.read<AuthService>();
-                      final errorMessage =
-                          await authService.signInUser(
-                              _emailController.text,
-                              _passwordController.text);
+                      final errorMessage = await authService.signInUser(
+                          _emailController.text, _passwordController.text);
                       if (errorMessage != null) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(errorMessage)),
                         );
                       } else {
                         Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomePage()));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomePage(),
+                          ),
+                        );
                       }
                     }
                   }
@@ -108,7 +108,6 @@ class LoginPageState extends State<LoginPage> {
   }
 
   bool hasEmptyCridentials() {
-    return (_emailController.text.isEmpty ||
-        _passwordController.text.isEmpty);
+    return (_emailController.text.isEmpty || _passwordController.text.isEmpty);
   }
 }
