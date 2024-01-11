@@ -92,9 +92,11 @@ class RegisterPageState extends State<RegisterPage> {
                         );
                       } else {
                         Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomePage()));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomePage(),
+                          ),
+                        );
                       }
                     }
                   } else {
