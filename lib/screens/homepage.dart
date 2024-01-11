@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:squashmate/screens/custom_assets/customappbar.dart';
 import 'package:squashmate/screens/match_history/matchhistorypage.dart';
 import 'package:squashmate/screens/new_match/newmatchpage.dart';
 import 'package:squashmate/screens/scoreboard/scoreboardpage.dart';
 import 'package:squashmate/screens/user_profile/userprofilepage.dart';
+import 'package:squashmate/widgets/customappbar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
