@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:squashmate/models/user_model.dart';
+import 'package:squashmate/screens/homepage.dart';
+import 'package:squashmate/screens/user_registration/loginpage.dart';
 import 'package:squashmate/services/auth_service.dart';
 
 class UserProfilePage extends StatefulWidget {
@@ -42,6 +44,20 @@ class UserProfileState extends State<UserProfilePage> {
                   const SizedBox(
                     height: 100,
                   ),
+                  TextButton(
+                      onPressed: () {
+                        final authService = context.read<AuthService>();
+                        authService.signOut();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginPage(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        "Log Out",
+                      ))
                 ],
               ),
             )
