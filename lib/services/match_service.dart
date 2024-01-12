@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:squashmate/models/match_model.dart';
 import 'package:squashmate/queries/match_queries.dart';
 
-class AuthService extends ChangeNotifier {
+class MatchService extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final MatchQueries _query = MatchQueries();
 
