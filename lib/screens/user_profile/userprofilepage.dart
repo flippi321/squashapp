@@ -19,7 +19,7 @@ class UserProfileState extends State<UserProfilePage> {
     final authService = context.read<AuthService>();
 
     // Get user information from AuthService
-    UserModel? user = authService.currentUser; // Assuming you have a User model
+    UserModel? user = authService.currentUser;
 
     return Scaffold(
       appBar: AppBar(
