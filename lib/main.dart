@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:squashmate/screens/user_registration/loginpage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:squashmate/services/auth_service.dart';
+import 'package:squashmate/services/match_service.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -34,7 +35,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => AuthService(),
         ),
-        
+        ChangeNotifierProvider(
+          create: (context) => MatchService(),
+        ),
       ],
       child: Builder(
         builder: (context) {
