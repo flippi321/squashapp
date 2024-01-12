@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:squashmate/models/match_model.dart';
 import 'package:squashmate/models/user_model.dart';
 import 'package:squashmate/services/auth_service.dart';
+import 'package:squashmate/services/match_service.dart';
 
 class NewMatchPage extends StatefulWidget {
   const NewMatchPage({Key? key}) : super(key: key);
@@ -16,6 +17,7 @@ class NewMatchState extends State<NewMatchPage> {
   late UserModel leftUser;
   late UserModel rightUser;
   late AuthService authService;
+  late MatchService matchService;
   int leftUserCounter = 0;
   int rightUserCounter = 0;
   String errorMessage = "";
@@ -35,25 +37,36 @@ class NewMatchState extends State<NewMatchPage> {
     return users;
   }
 
-  // Actually save match
-  saveMatch(context) {
+  saveMatch(context) async {
     // We need to update the state if we change the error screen
-    setState(
-      () {
-        if (leftUser.username == rightUser.username) {
-          errorMessage = "A match can't be played between you and yourself...";
-        } else if (leftUserCounter <= 0 && rightUserCounter <= 0) {
-          errorMessage = "At least one user has to win a rally";
-        } else {
-          MatchModel match = MatchModel(
-            matchDate: Timestamp.now(),
-            player1: leftUser.username,
-            player2: rightUser.username,
-          );
-          Navigator.of(context).pop();
-        }
-      },
-    );
+    if (checkValues()) {
+      MatchModel match = MatchModel(
+        matchDate: Timestamp.now(),
+        player1: leftUser.username,
+        player2: rightUser.username,
+      );
+
+      final error = await matchService.createMatch(match);
+      if (error != null) {
+        errorMessage = error;
+      } else {
+        Navigator.of(context).pop();
+      }
+    }
+  }
+
+  bool checkValues() {
+    bool worked = false;
+    setState(() {
+      if (leftUser.username == rightUser.username) {
+        errorMessage = "A match can't be played between you and yourself...";
+      } else if (leftUserCounter <= 0 && rightUserCounter <= 0) {
+        errorMessage = "At least one user has to win a rally";
+      } else {
+        worked = true;
+      }
+    });
+    return worked;
   }
 
   @override
@@ -61,6 +74,7 @@ class NewMatchState extends State<NewMatchPage> {
     super.initState();
     // Get user information from AuthService
     authService = context.read<AuthService>();
+    matchService = context.read<MatchService>();
     leftUser = authService.currentUser!;
     rightUser = getUsers().first;
   }
