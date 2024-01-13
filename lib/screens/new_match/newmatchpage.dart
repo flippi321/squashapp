@@ -22,19 +22,8 @@ class NewMatchState extends State<NewMatchPage> {
   int rightUserCounter = 0;
   String errorMessage = "";
 
-  // TODO Fetch all users form backend
-  List<UserModel> getUsers() {
-    List<UserModel> users = [];
-    UserModel user1 = const UserModel(
-        username: "bruker1", firstName: "Navn", lastName: "Navnessen");
-    UserModel user2 = const UserModel(
-        username: "bruker2", firstName: "Ole", lastName: "Nordmann");
-    users.add(user1);
-    users.add(user2);
-    if (authService.currentUser != null) {
-      users.add(authService.currentUser!);
-    }
-    return users;
+  Future<List<UserModel>> getUsers() async {
+    return await authService.getAllUsers();
   }
 
   saveMatch(context) async {
@@ -76,7 +65,8 @@ class NewMatchState extends State<NewMatchPage> {
     authService = context.read<AuthService>();
     matchService = context.read<MatchService>();
     leftUser = authService.currentUser!;
-    rightUser = getUsers().first;
+    rightUser =
+        const UserModel(username: "", firstName: "Select", lastName: "User");
   }
 
   @override
@@ -120,50 +110,60 @@ class NewMatchState extends State<NewMatchPage> {
 
   // Built one of the columns
   Widget buildColumn(bool isLeftColumn) {
-    List<UserModel> users = getUsers();
-
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            isLeftColumn ? "Opponent 1" : "Opponent 2",
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+    return FutureBuilder<List<UserModel>>(
+      future: getUsers(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator(); // Placeholder for loading state
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          List<UserModel> users = snapshot.data!;
+          return Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlig|nment.center,
+              children: [
+                Text(
+                  isLeftColumn ? "Opponent 1" : "Opponent 2",
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                DropdownButton<UserModel>(
+                  value: isLeftColumn ? leftUser : rightUser,
+                  key: UniqueKey(), // Add this line to ensure uniqueness
+                  onChanged: (newValue) {
+                    setState(() {
+                      if (isLeftColumn) {
+                        leftUser = newValue!;
+                      } else {
+                        rightUser = newValue!;
+                      }
+                    });
+                  },
+                  items: users.map((user) {
+                    return DropdownMenuItem<UserModel>(
+                      key: UniqueKey(), // Add this line to ensure uniqueness
+                      value: user,
+                      child: Text("${user.firstName} ${user.lastName}"),
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  "Rallies",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                buildRalliesCounter(isLeftColumn),
+              ],
             ),
-          ),
-          const SizedBox(width: 8),
-          DropdownButton<UserModel>(
-            value: isLeftColumn ? leftUser : rightUser,
-            key: UniqueKey(), // Add this line to ensure uniqueness
-            onChanged: (newValue) {
-              setState(() {
-                if (isLeftColumn) {
-                  leftUser = newValue!;
-                } else {
-                  rightUser = newValue!;
-                }
-              });
-            },
-            items: users.map((user) {
-              return DropdownMenuItem<UserModel>(
-                key: UniqueKey(), // Add this line to ensure uniqueness
-                value: user,
-                child: Text("${user.firstName} ${user.lastName}"),
-              );
-            }).toList(),
-          ),
-          const SizedBox(height: 16),
-          const Text(
-            "Rallies",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          buildRalliesCounter(isLeftColumn),
-        ],
-      ),
+          );
+        }
+      },
     );
   }
 
