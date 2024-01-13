@@ -40,26 +40,19 @@ class UserQueries extends GetxController {
     return UserModel.fromJson(data);
   }
 
-  /*
-  Future<void> updateUser(UserModel user) async {
-    final docSnapshot = await _db
-        .collection("Users")
-        .where('username', isEqualTo: user.username)
-        .limit(1)
-        .get();
+  Future<List<UserModel>> getAllUsers() async {
+    final QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('Users').get();
 
-    if (docSnapshot.docs.isNotEmpty) {
-      var docId = docSnapshot.docs.first.id;
-      await _db.collection("Users").doc(docId).update({
-        'firstName': user.firstName,
-        'lastName': user.lastName,
-        'phoneNo': user.phoneN
-      }).catchError(
-        (error, StackTrace stack) {
-          return (error);
-        },
-      );
-    }
+    return querySnapshot.docs.map(
+      (doc) {
+        return UserModel.fromJson(
+          {
+            ...doc.data() as Map<String, dynamic>,
+            'id': doc.id,
+          },
+        );
+      },
+    ).toList();
   }
-  */
 }
