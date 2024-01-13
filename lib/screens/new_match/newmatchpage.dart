@@ -14,8 +14,11 @@ class NewMatchPage extends StatefulWidget {
 }
 
 class NewMatchState extends State<NewMatchPage> {
-  late UserModel leftUser;
-  late UserModel rightUser;
+  late List<UserModel> allUsers = [];
+  UserModel leftUser =
+      const UserModel(username: "user1", firstName: "Select", lastName: "User");
+  UserModel rightUser =
+      const UserModel(username: "user2", firstName: "Select", lastName: "User");
   late AuthService authService;
   late MatchService matchService;
   int leftUserCounter = 0;
@@ -23,7 +26,9 @@ class NewMatchState extends State<NewMatchPage> {
   String errorMessage = "";
 
   Future<List<UserModel>> getUsers() async {
-    return await authService.getAllUsers();
+    List<UserModel> users = await authService.getAllUsers();
+    allUsers = users;
+    return users;
   }
 
   saveMatch(context) async {
@@ -64,9 +69,15 @@ class NewMatchState extends State<NewMatchPage> {
     // Get user information from AuthService
     authService = context.read<AuthService>();
     matchService = context.read<MatchService>();
-    leftUser = authService.currentUser!;
-    rightUser =
-        const UserModel(username: "", firstName: "Select", lastName: "User");
+    updateUsers();
+  }
+
+  updateUsers() async {
+    await getUsers();
+    setState(() {
+      leftUser = allUsers.first;
+      rightUser = allUsers.last;
+    });
   }
 
   @override
@@ -110,60 +121,49 @@ class NewMatchState extends State<NewMatchPage> {
 
   // Built one of the columns
   Widget buildColumn(bool isLeftColumn) {
-    return FutureBuilder<List<UserModel>>(
-      future: getUsers(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator(); // Placeholder for loading state
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else {
-          List<UserModel> users = snapshot.data!;
-          return Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlig|nment.center,
-              children: [
-                Text(
-                  isLeftColumn ? "Opponent 1" : "Opponent 2",
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                DropdownButton<UserModel>(
-                  value: isLeftColumn ? leftUser : rightUser,
-                  key: UniqueKey(), // Add this line to ensure uniqueness
-                  onChanged: (newValue) {
-                    setState(() {
-                      if (isLeftColumn) {
-                        leftUser = newValue!;
-                      } else {
-                        rightUser = newValue!;
-                      }
-                    });
-                  },
-                  items: users.map((user) {
-                    return DropdownMenuItem<UserModel>(
-                      key: UniqueKey(), // Add this line to ensure uniqueness
-                      value: user,
-                      child: Text("${user.firstName} ${user.lastName}"),
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(height: 16),
-                const Text(
-                  "Rallies",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 8),
-                buildRalliesCounter(isLeftColumn),
-              ],
+    UserModel selectedUser = isLeftColumn ? leftUser : rightUser;
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            isLeftColumn ? "Opponent 1" : "Opponent 2",
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
-          );
-        }
-      },
+          ),
+          const SizedBox(width: 8),
+          DropdownButton<UserModel>(
+            value: selectedUser,
+            key: Key(selectedUser.username),
+            onChanged: (newValue) {
+              setState(() {
+                if (isLeftColumn) {
+                  leftUser = newValue!;
+                } else {
+                  rightUser = newValue!;
+                }
+              });
+            },
+            items: allUsers.map((user) {
+              return DropdownMenuItem<UserModel>(
+                key: Key(user.username),
+                value: user,
+                child: Text("${user.firstName} ${user.lastName}"),
+              );
+            }).toList(),
+          ),
+          const SizedBox(height: 16),
+          const Text(
+            "Rallies",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          buildRalliesCounter(isLeftColumn),
+        ],
+      ),
     );
   }
 
