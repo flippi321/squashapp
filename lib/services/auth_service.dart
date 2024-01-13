@@ -65,6 +65,15 @@ class AuthService extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<List<UserModel>> getAllUsers() async {
+    try {
+      List<UserModel> users = await _query.getAllUsers();
+      return users;
+    } on FirebaseAuthException catch (e) {
+      return [];
+    }
+  }
+
   String getUserId() {
     return _auth.currentUser!.uid;
   }
